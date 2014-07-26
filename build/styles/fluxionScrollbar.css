@@ -1,0 +1,55 @@
+.fluxionScrollParent {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+.fluxionScrollParent .fluxionScrollContainer {
+  position: relative;
+  top: 0px;
+  overflow: hidden;
+  margin-right: 16px;
+}
+.fluxionScrollParent .fluxionScrollControls {
+  position: absolute;
+  opacity: 0.5;
+  width: 16px;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+}
+.fluxionScrollParent .fluxionScrollControls .fluxionScrollHandleContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.fluxionScrollParent .fluxionScrollControls .fluxionScrollHandleContainer .fluxionScrollHandle {
+  position: absolute;
+  z-index: 1098;
+  top: 0px;
+  height: 30%;
+  width: 100%;
+  cursor: pointer;
+}
+.fluxionScrollParent .fluxionScrollControls .fluxionScrollHandleContainer .fluxionScrollHandle .fluxionScrollHandleBar {
+  position: relative;
+  height: 100%;
+  margin: 0px auto;
+  width: 4px;
+  z-index: 1099;
+}
+.fluxionScrollParent .fluxionScrollControls .fluxionScrollHandleContainer .fluxionScrollHandleTrack {
+  opacity: 0.5;
+  width: 6px;
+  height: 100%;
+  margin: 0px auto;
+}
+.fluxionScrollParent.visible .fluxionScrollControls {
+  opacity: 1;
+}
+.fluxionScrollControls .fluxionScrollHandleContainer .fluxionScrollHandle .fluxionScrollHandleBar {
+  background-color: Black;
+}
+.fluxionScrollControls .fluxionScrollHandleContainer .fluxionScrollHandleTrack {
+  background-color: Gray;
+}

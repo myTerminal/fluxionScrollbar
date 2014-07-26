@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tests: fluxionScrollbar</title>
+
+    <!-- Styles to be tested -->
+    <link rel="stylesheet" type="text/css" href="../build/styles/fluxionScrollbar.css" />
+
+    <!-- Test styles -->	
+    <link rel="stylesheet" type="text/css" href="../external/styles/mocha.css" />
+
+    <style type="text/css">
+    body
+    {
+	background-color: #E0E0E0;
+	font-family: Arial;
+	line-height: 24px;
+    }
+    
+    .code
+    {
+	font-family: 'Courier New';   
+    }
+    
+    .myContent
+    {
+	height: 300px;
+	width: 200px;
+	padding: 5px 0px 5px 5px;
+	margin: 20px 50px;
+	background: White;
+    }
+    
+    .scroll-content
+    {
+	height: 100%;
+	float: left;
+	width: 100%;
+	overflow: hidden;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <br />
+    <div class="myContent">
+      <div class="scroll-content">
+	Watching John with the machine, it was suddenly so clear. The terminator, would never stop. It would never leave him, and it would never hurt him, never shout at him, or get drunk and hit him, or say it was too busy to spend time with him. It would always be there. And it would die, to protect him. Of all the would-be fathers who came and went over the years, this thing, this machine, was the only one who measured up. In an insane world, it was the sanest choice.
+      </div>
+    </div>
+
+    <!-- Script libraries  -->
+    <script type="text/javascript" src="../external/scripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="../external/scripts/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="../external/scripts/jquery.mousewheel.min.js"></script>
+
+    <!-- Test libraries -->
+    <script type="text/javascript" src="../external/scripts/assert.js"></script>
+    <script type="text/javascript" src="../external/scripts/mocha.js"></script>
+    
+    <!-- Script to be tested  -->
+    <script type="text/javascript" src="../build/scripts/fluxionScrollbar.min.js"></script>
+
+    <!-- Test script  -->
+    <script type="text/javascript" src="scripts/tests.js"></script>
+  </body>
+</html>
