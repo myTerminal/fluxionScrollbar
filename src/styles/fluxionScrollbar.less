@@ -4,70 +4,70 @@
 
 .fluxionScrollParent
 {
-	position: relative;
+    position: relative;
     height: 100%;
+    overflow: hidden;
+    max-height: 100%;
+
+    .fluxionScrollContainer
+    {
+	position: relative;
+	top: 0px;
 	overflow: hidden;
-	max-height: 100%;
+	margin-right: 16px;
+    }
 
-	.fluxionScrollContainer
+    .fluxionScrollControls
+    {
+	position: absolute;
+	opacity: 0.5;
+	width: 16px;
+	height: 100%;
+	top: 0px;
+	right: 0px;
+
+	.fluxionScrollHandleContainer
 	{
-		position: relative;
-		top: 0px;
-		overflow: hidden;
-		margin-right: 16px;
-	}
+	    position: absolute;
+	    width: 100%;
+	    height:100%;
 
+	    .fluxionScrollHandle
+	    {
+		position: absolute;
+		z-index: 1098;
+		top: 0px;
+		height: 30%;
+		width: 100%;
+		cursor: pointer;
+
+		.fluxionScrollHandleBar
+		{
+		    position: relative;
+		    height: 100%;
+		    margin: 0px auto;
+		    width:4px;
+		    z-index: 1099;
+		}
+	    }
+
+	    .fluxionScrollHandleTrack
+	    {
+		opacity: 0.5;
+		width: 6px;
+		height: 100%;
+		margin: 0px auto;
+	    }
+	}
+    }
+
+    &.visible
+    {
 	.fluxionScrollControls
 	{
-		position: absolute;
-		opacity: 0.5;
-		width: 16px;
-		height: 100%;
-		top: 0px;
-		right: 0px;
-
-		.fluxionScrollHandleContainer
-		{
-			position: absolute;
-			width: 100%;
-			height:100%;
-
-			.fluxionScrollHandle
-			{
-				position: absolute;
-				z-index: 1098;
-				top: 0px;
-				height: 30%;
-				width: 100%;
-				cursor: pointer;
-
-				.fluxionScrollHandleBar
-				{
-					position: relative;
-					height: 100%;
-					margin: 0px auto;
-					width:4px;
-					z-index: 1099;
-				}
-			}
-
-			.fluxionScrollHandleTrack
-			{
-				opacity: 0.5;
-				width: 6px;
-				height: 100%;
-				margin: 0px auto;
-			}
-		}
+	    opacity: 1;
 	}
-
-	&.visible
-	{
-		.fluxionScrollControls
-		{
-			opacity: 1;
-		}
-	}
+    }
 }
 
 //---------------------------------------
@@ -76,19 +76,19 @@
 
 .fluxionScrollControls
 {
-	.fluxionScrollHandleContainer
+    .fluxionScrollHandleContainer
+    {
+	.fluxionScrollHandle
 	{
-		.fluxionScrollHandle
-		{
-			.fluxionScrollHandleBar
-			{
-				background-color: Black;
-			}
-		}
-
-		.fluxionScrollHandleTrack
-		{
-			background-color: Gray;
-		}
+	    .fluxionScrollHandleBar
+	    {
+		background-color: Black;
+	    }
 	}
+
+	.fluxionScrollHandleTrack
+	{
+	    background-color: Gray;
+	}
+    }
 }

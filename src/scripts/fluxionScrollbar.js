@@ -1,212 +1,144 @@
-﻿//--------------------------------------------------
-//----------fluxion Scrollbar 0.9.2 beta------------
-//-----------http://www.teamfluxion.com-------------
-//--------------------------------------------------
+﻿var fluxionScrollbar = function (scrollerSelector, options) {
+    var mouseDownOnContentY = null,
+	mouseDownOnHandleY = null,
+	scroller = $(scrollerSelector),
+	scrollParent,
+	scrollContainer,
+	scrollControls,
+	scrollHandleContainer,
+	scrollHandle,
+	scrollHandleBar,
+	scrollHandleTrack,
+	setUpScrollMarkup = function () {
+            scroller.css("-moz-user-select", "none");
+            scroller.css("-webkit-user-select", "none");
+            scroller.attr("onselectstart", "return false;");
 
-function fluxionScrollbar(scroller, options) {
-    //Internal Variables
-    var self = this;
-    var isMouseDownOnScroll = false;
-    var mouseDownOnScrollY = 0;
-    var throttle = 1;
-    var throttleTimer;
+            var scrollContent = scroller.html();
+            scroller.html('<div class="fluxionScrollParent">' +
+                            '<div class="fluxionScrollContainer">' +
+                              scrollContent +
+                            '</div>' +
+                            '<div class="fluxionScrollControls">' +
+                              '<div class="fluxionScrollHandleContainer">' +
+                                '<div class="fluxionScrollHandle">' +
+                                  '<div class="fluxionScrollHandleBar"></div>' +
+                                '</div>' +
+                                '<div class="fluxionScrollHandleTrack"></div>' +
+                              '</div>' +
+                            '</div>' +
+                          '</div>');
 
-    //Default input options
-    //options.handleScroll = options.handleScroll && true;
-    //options.panScroll = options.panScroll && true;
-    //options.mouseWheelScroll = options.mouseWheelScroll && true;
+	    scrollParent = scroller.find(".fluxionScrollParent");
+	    scrollContainer = scroller.find(".fluxionScrollContainer");
+	    scrollControls = scroller.find(".fluxionScrollControls");
+	    scrollHandleContainer = scroller.find(".fluxionScrollHandle");
+	    scrollHandle = scroller.find(".fluxionScrollHandle");
+	    scrollHandleBar = scroller.find(".fluxionScrollHandleBar");
+	    scrollHandleTrack = scroller.find(".fluxionScrollHandleTrack");
+	},
+	activate = function () {
+	    setUpScrollMarkup();
+	    applyBindings();
+	    update();
+	},
+	update = function () {
+	    var scrollerHeight = scroller.height(),
+		scrollContainerHeight = scrollContainer.height();
 
-    //Internal Functions
-    function increaseThrottle() {
-        if (throttle < 20) {
-            throttle = throttle + 1;
-        }
-        clearTimeout(throttleTimer);
-        throttleTimer = setTimeout(function () { decreaseThrottle(); }, 100);
+	    if(scrollerHeight > scrollContainerHeight) {
+		scrollControls.hide();
+	    } else {
+		scrollControls.show();
+	    }
+
+	    var contentToContainerRatio = scrollerHeight / scrollContainerHeight,
+		handleTrackHeight = scrollHandleTrack.height(),
+		updatedHandleHeight = contentToContainerRatio * handleTrackHeight;
+	    scrollHandle.css("height", updatedHandleHeight);
+	},
+	applyBindings = function () {
+	    scrollContainer.bind("mousedown", function (evt) {
+		mouseDownOnContentY = evt.clientY;
+	    });
+
+	    scrollContainer.bind("mousemove", function (evt) {
+		if (mouseDownOnContentY) {
+		    pan(mouseDownOnContentY - evt.clientY);
+		    mouseDownOnContentY = evt.clientY;
+		}
+	    });
+
+	    scrollContainer.bind("mouseout mouseup", function (evt) {
+		mouseDownOnContentY = null;
+	    });
+
+	    scrollHandle.bind("mousedown", function (evt) {
+		mouseDownOnHandleY = evt.clientY;
+	    });
+
+	    scrollParent.bind("mousemove", function (evt) {
+		var scrollableOffset = -(mouseDownOnHandleY - evt.clientY),
+		    draggableOffset = scrollableOffset * getContentToContainerRatio();
+		if (mouseDownOnHandleY) {
+		    pan(draggableOffset);
+		    mouseDownOnHandleY = evt.clientY;
+		}
+	    });
+
+	    scrollParent.bind("mouseout mouseup", function (evt) {
+		mouseDownOnHandleY = null;
+	    });
+	},
+	getNumberOrDefault = function (input, parser, _default) {
+	    var parserToUse = (parser || parseInt),
+		parsedValue = parserToUse(input);
+	    return isNaN(parsedValue) ? _default : parsedValue;
+	},
+	getNumberOrZero = function (input, parser) {
+	    return getNumberOrDefault(input, parser, 0);
+	},
+	pan = function (offset) {
+	    var scrollContainerTop = scrollContainer.css("top"),
+		scrollContainerHeight = scrollContainer.height(),
+		scrollParentHeight = scrollParent.height(),
+		currentOffset = scrollContainerTop == "auto" ?
+		    0 :
+		    parseInt(scrollContainerTop),
+		scrollableOffset = currentOffset - offset,
+		currentHandleBarOffset = scrollHandleBar.css("top"),
+		currentHandleBarOffsetInNumbers = getNumberOrZero(currentHandleBarOffset);
+	    
+	    if (scrollableOffset > 0) {
+		scrollableOffset = 0;
+	    } else if (-1 * scrollableOffset > scrollContainerHeight - scrollParentHeight) {
+		scrollableOffset = -(scrollContainerHeight - scrollParentHeight);
+	    }
+
+	    if (scrollableOffset != currentOffset) {
+		setScrollOffset(scrollableOffset);
+		setHandleOffset(-scrollableOffset / getContentToContainerRatio());
+	    }
+	},
+	getContentToContainerRatio = function () {
+	    var scrollContainerHeight = scrollContainer.height(),
+		scrollParentHeight = scrollParent.height();
+	    return scrollContainerHeight / scrollParentHeight;
+	},
+	setScrollOffset = function (newOffset) {
+	    scrollContainer.css("top", newOffset);
+	},
+	setHandleOffset = function (newOffset) {
+	    scrollHandle.css("top", newOffset);
+	},
+	reset = function () {
+	    setScrollOffset(0);
+	};
+
+    return {
+	activate: activate,
+	update: update,
+	pan: pan,
+	reset: reset
     };
-    function decreaseThrottle() {
-        if (throttle > 0) {
-            throttle = throttle - 1;
-        }
-        if (throttle > 1) {
-            throttleTimer = setTimeout(function () { decreaseThrottle(); }, 100);
-        }
-    };
-    function getContentToContainerRatio() {
-        var contentHeight = parseInt(getVerticalHeight($(scroller).find(".fluxionScrollContainer"))),
-                        containerHeight = parseInt(getVerticalHeight($(scroller).find(".fluxionScrollParent")));
-        return contentHeight / containerHeight;
-    };
-    function getMaxScrollValue() {
-        var contentHeight = parseInt(getVerticalHeight($(scroller).find(".fluxionScrollContainer"))),
-                        containerHeight = parseInt(getVerticalHeight($(scroller).find(".fluxionScrollParent")));
-        return contentHeight - containerHeight;
-    };
-    function showOrHideScrollControls() {
-        if (getContentToContainerRatio() <= 1) {
-            $(scroller).find(".fluxionScrollControls").hide();
-        } else {
-            $(scroller).find(".fluxionScrollControls").show();
-        }
-    };
-    function updateHandleSize() {
-        var contentToContainerRatio = getContentToContainerRatio(), trackSize, newHandleSize;
-        showOrHideScrollControls();
-
-        //Set the new handle size
-        trackSize = getVerticalHeight($(scroller).find(".fluxionScrollHandleTrack"));
-        newHandleSize = trackSize / contentToContainerRatio;
-        $(scroller).find(".fluxionScrollHandle").css("height", newHandleSize);
-    };
-    function setUpScrollMarkup() {
-        $(scroller).css("-moz-user-select", "none");
-        $(scroller).css("-webkit-user-select", "none");
-        $(scroller).attr("onselectstart", "return false;");
-
-        var scrollContent = $(scroller).html();
-        $(scroller).html('<div class="fluxionScrollParent">'
-                            + '<div class="fluxionScrollContainer">'
-                                + scrollContent
-                            + '</div>'
-                            + '<div class="fluxionScrollControls">'
-                                + '<div class="fluxionScrollHandleContainer">'
-                                    + '<div class="fluxionScrollHandle">'
-                                        + '<div class="fluxionScrollHandleBar">'
-                                        + '</div>'
-                                    + '</div>'
-                                    + '<div class="fluxionScrollHandleTrack">'
-                                    + '</div>'
-                                + '</div>'
-                            + '</div>'
-                        + '</div>');
-    }
-
-    //Exposed methods
-    this.activate = function () {
-        setUpScrollMarkup();
-
-        $(scroller).live("mouseover", function (evt) {
-            self.performScroll(0);
-            showOrHideScrollControls();
-        });
-
-        $(scroller).live("mousedown", function (evt) {
-            isMouseDownOnScroll = true;
-            mouseDownOnScrollY = evt.clientY;
-        });
-
-        $(scroller).live("mouseup mouseleave", function () {
-            isMouseDownOnScroll = false;
-            $(this).removeClass("visible");
-        });
-
-        $(scroller).live("mousemove", function (evt) {
-            if (isMouseDownOnScroll) {
-                var displacement = mouseDownOnScrollY - evt.clientY;
-                self.performScroll(displacement);
-                mouseDownOnScrollY = evt.clientY;
-            }
-        });
-
-        $(scroller).live('mousewheel', function (event, delta) {
-            delta = parseInt(event.handleObj.handler.arguments[3]);
-            increaseThrottle();
-            self.performScroll(-1 * throttle * delta);
-        });
-
-        $(scroller).find(".fluxionScrollControls").live("mousedown", function (evt) {
-            isMouseDownOnScroll = true;
-            mouseDownOnScrollY = evt.clientY;
-        });
-
-        $(scroller).find(".fluxionScrollControls").live("mouseup mouseleave", function () {
-            isMouseDownOnScroll = false;
-            $(scroller).removeClass("visible");
-        });
-
-        $(scroller).find(".fluxionScrollControls").live("mousemove", function (evt) {
-            if (isMouseDownOnScroll) {
-                var displacement = mouseDownOnScrollY - evt.clientY;
-                self.performScroll(-1 * getContentToContainerRatio() * displacement);
-                mouseDownOnScrollY = evt.clientY;
-            }
-        });
-
-        updateHandleSize();
-    };
-    this.resetToZero= function () {
-        $(scroller).find(".fluxionScrollContainer").css("top", "0px");
-        $(scroller).find(".fluxionScrollHandle").css("top", "0px");
-        updateHandleSize();
-    };
-    this.performScroll = function (displacement) {
-        var contentToContainerRatio = getContentToContainerRatio(),
-            maxScrollValue = getMaxScrollValue(),
-            oldScrollOffset,
-            newScrollOffset,
-            newHandleOffset;
-
-        //Check if there is a scrollbar
-        if (contentToContainerRatio <= 1) {
-            return;
-        }
-
-        //Calculate the scroll offset
-        oldScrollOffset = parseFloat($(scroller).find(".fluxionScrollContainer").css("top"));
-        newScrollOffset = oldScrollOffset - displacement;
-
-        //Calculate the handle offset
-        newHandleOffset = -1 * newScrollOffset / contentToContainerRatio;
-
-        //Validate for top bound
-        if (newScrollOffset > 0) {
-            newScrollOffset = 0;
-        }
-        //Validate for bottom bound
-        if ((-1 * newScrollOffset) > maxScrollValue) {
-            newScrollOffset = -1 * maxScrollValue;
-        }
-
-        //Set the offsets
-        $(scroller).find(".fluxionScrollContainer").css("top", newScrollOffset);
-        $(scroller).find(".fluxionScrollHandle").css("top", newHandleOffset);
-
-        updateHandleSize();
-    };
-
-    function getVerticalHeight(theElement) {
-        if (isHidden(theElement))
-            return 0;
-        var value = parseInt($(theElement).css("height")) + parseInt($(theElement).css("padding-top")) + parseInt($(theElement).css("margin-top")) + parseInt($(theElement).css("border-top-width")) + parseInt($(theElement).css("padding-bottom")) + parseInt($(theElement).css("margin-bottom")) + parseInt($(theElement).css("border-bottom-width"));
-        return (handleNaN(value));
-    }
-
-    function getVerticalHeightExceptSelf(theElement) {
-        if (isHidden(theElement))
-            return 0;
-        var value = parseInt($(theElement).css("padding-top")) + parseInt($(theElement).css("margin-top")) + parseInt($(theElement).css("border-top-width")) + parseInt($(theElement).css("padding-bottom")) + parseInt($(theElement).css("margin-bottom")) + parseInt($(theElement).css("border-bottom-width"));
-        return (handleNaN(value));
-    }
-
-    function getHorizontalWidth(theElement) {
-        if (isHidden(theElement))
-            return 0;
-        var value = parseInt($(theElement).css("width")) + parseInt($(theElement).css("padding-left")) + parseInt($(theElement).css("margin-left")) + parseInt($(theElement).css("border-left-width")) + parseInt($(theElement).css("padding-right")) + parseInt($(theElement).css("margin-right")) + parseInt($(theElement).css("border-right-width"));
-        return (handleNaN(value));
-    }
-
-    function getHorizontalWidthExceptSelf(theElement) {
-        if (isHidden(theElement))
-            return 0;
-        var value = parseInt($(theElement).css("padding-left")) + parseInt($(theElement).css("margin-left")) + parseInt($(theElement).css("border-left-width")) + parseInt($(theElement).css("padding-right")) + parseInt($(theElement).css("margin-right")) + parseInt($(theElement).css("border-right-width"));
-        return (handleNaN(value));
-    }
-
-    function isHidden(theElement) {
-        return $(theElement).css("display") == "none" ? true : false;
-    }
-
-    function handleNaN(value) {
-        return isNaN(value) ? 0 : value;
-    }
 };
