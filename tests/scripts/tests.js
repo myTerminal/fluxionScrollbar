@@ -1,3 +1,5 @@
+/*global $, mocha, suite, test, assert, mochaPhantomJS, fluxionScrollbar,  */
+
 $(document).ready(function () {
     mocha.checkLeaks();
     mocha.globals(['jQuery']);
@@ -71,9 +73,9 @@ suite('fluxionScrollbar tests', function(){
             scrollOffset = 10;
 
         myScrollbar.pan(scrollOffset);
-        finalContentOffsetInNumbers = parseInt($(scrollContainerSelector).css("top"));
+        finalContentOffsetInNumbers = parseInt($(scrollContainerSelector).css("top"), 10);
 
-        assert.ok(initialContentOffsetInNumbers - finalContentOffsetInNumbers == scrollOffset);
+        assert.ok(initialContentOffsetInNumbers - finalContentOffsetInNumbers === scrollOffset);
         myScrollbar.pan(-scrollOffset); 
     });
 
@@ -84,9 +86,9 @@ suite('fluxionScrollbar tests', function(){
             scrollOffset = -10;
 
         myScrollbar.pan(scrollOffset);
-        finalContentOffsetInNumbers = parseInt($(scrollContainerSelector).css("top"));
+        finalContentOffsetInNumbers = parseInt($(scrollContainerSelector).css("top"), 10);
 
-        assert.ok(finalContentOffsetInNumbers == 0);
+        assert.ok(finalContentOffsetInNumbers === 0);
     });
 
     test("Moves the content down partially when mouse is dragged beyond limit", function () {
@@ -99,7 +101,7 @@ suite('fluxionScrollbar tests', function(){
 
         myScrollbar.pan(-2 * scrollOffset);
         postContainerOffset = getNumberOrZero(scrollContainer.css("top"));
-        assert.ok(postContainerOffset == 0);
+        assert.ok(postContainerOffset === 0);
     });
 
     test("Does not move the content up when mouse is dragged beyond limit", function () {
@@ -115,7 +117,7 @@ suite('fluxionScrollbar tests', function(){
         scrollOffset = 10;
         myScrollbar.pan(scrollOffset);
         postContainerOffset = getNumberOrZero(scrollContainer.css("top"));
-        assert.ok(-postContainerOffset == scrollContainerHeight - $(scrollParentSelector).height());
+        assert.ok(-postContainerOffset === scrollContainerHeight - $(scrollParentSelector).height());
     });
 
     test("Is able to reset the content to top", function () {
@@ -126,7 +128,7 @@ suite('fluxionScrollbar tests', function(){
         myScrollbar.pan(scrollOffset);
         myScrollbar.reset();
         postContainerOffset = getNumberOrZero(scrollContainer.css("top"));
-        assert.ok(postContainerOffset == 0);
+        assert.ok(postContainerOffset === 0);
     });
 
     test("Moves scrollbar when content is panned", function () {
@@ -139,7 +141,7 @@ suite('fluxionScrollbar tests', function(){
         myScrollbar.pan(scrollOffset);
         finalHandleOffsetInNumbers = getNumberOrZero(handle.css("top"));
 
-        assert.ok(initialHandleOffsetInNumbers != finalHandleOffsetInNumbers);
+        assert.ok(initialHandleOffsetInNumbers !== finalHandleOffsetInNumbers);
         myScrollbar.pan(-scrollOffset); 
     });
 
@@ -155,7 +157,7 @@ suite('fluxionScrollbar tests', function(){
         myScrollbar.reset();    
         myScrollbar.pan(scrollOffset);
         finalHandleOffsetInNumbers = getNumberOrZero(handle.css("top"), parseFloat);
-        finalContentOffsetInNumbers = parseInt($(scrollContainerSelector).css("top"));
+        finalContentOffsetInNumbers = parseInt($(scrollContainerSelector).css("top"), 10);
 
         assert.ok(Math.abs(finalHandleOffsetInNumbers + containerToContentRatio * finalContentOffsetInNumbers) < 1);
         myScrollbar.pan(-scrollOffset);         
