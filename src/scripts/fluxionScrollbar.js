@@ -69,7 +69,7 @@
                 }
             });
 
-            scrollContainer.bind("mouseout mouseup", function (evt) {
+            scrollContainer.bind("mouseout mouseup", function () {
                 mouseDownOnContentY = null;
             });
 
@@ -86,7 +86,7 @@
                 }
             });
 
-            scrollParent.bind("mouseout mouseup", function (evt) {
+            scrollParent.bind("mouseout mouseup", function () {
                 mouseDownOnHandleY = null;
             });
         },
@@ -102,12 +102,11 @@
             var scrollContainerTop = scrollContainer.css("top"),
                 scrollContainerHeight = scrollContainer.height(),
                 scrollParentHeight = scrollParent.height(),
-                currentOffset = scrollContainerTop == "auto" ?
+                currentOffset = scrollContainerTop === "auto" ?
                     0 :
                     parseInt(scrollContainerTop),
                 scrollableOffset = currentOffset - offset,
-                currentHandleBarOffset = scrollHandleBar.css("top"),
-                currentHandleBarOffsetInNumbers = getNumberOrZero(currentHandleBarOffset);
+                currentHandleBarOffset = scrollHandleBar.css("top");
             
             if (scrollableOffset > 0) {
                 scrollableOffset = 0;
@@ -115,7 +114,7 @@
                 scrollableOffset = -(scrollContainerHeight - scrollParentHeight);
             }
 
-            if (scrollableOffset != currentOffset) {
+            if (scrollableOffset !== currentOffset) {
                 setScrollOffset(scrollableOffset);
                 setHandleOffset(-scrollableOffset / getContentToContainerRatio());
             }

@@ -1,4 +1,4 @@
-/*global $, mocha, suite, test, assert, mochaPhantomJS, fluxionScrollbar,  */
+/*global $, mocha, suite, test, assert, mochaPhantomJS, fluxionScrollbar */
 
 $(document).ready(function () {
     mocha.checkLeaks();
