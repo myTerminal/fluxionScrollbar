@@ -1,3 +1,5 @@
+# fluxionScrollbar
+
 [![Build Status](https://travis-ci.org/myTerminal/fluxionScrollbar.svg?branch=master)](https://travis-ci.org/myTerminal/fluxionScrollbar)
 [![Code Climate](https://codeclimate.com/github/myTerminal/fluxionScrollbar.png)](https://codeclimate.com/github/myTerminal/fluxionScrollbar)
 [![Coverage Status](https://img.shields.io/coveralls/myTerminal/fluxionScrollbar.svg)](https://coveralls.io/r/myTerminal/fluxionScrollbar?branch=master)
@@ -5,14 +7,11 @@
 [![devDependency Status](https://david-dm.org/myTerminal/fluxionScrollbar/dev-status.svg)](https://david-dm.org/myTerminal/fluxionScrollbar#info=devDependencies)
 [![peer Dependency Status](https://david-dm.org/myTerminal/fluxionScrollbar/peer-status.svg)](https://david-dm.org/myTerminal/fluxionScrollbar#info=peerDependencies)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
-
-fluxionScrollbar
-================
+[![License](https://img.shields.io/badge/LICENSE-GPL%20v3.0-blue.svg)](https://www.gnu.org/licenses/gpl.html)
 
 A simple plug-and-play JavaScript scrollbar
 
-How to use
-----------
+## How to use
 
 *fluxionScrollbar* is an easy to use jQuery scrollbar plugin that requires minimal effort to set up on a web-page. Below are simple steps that you need to do to get it working:
 
@@ -28,8 +27,7 @@ How to use
 
 That is all!
 
-Let me know
------------
+## Let me know
 
 Let me know your suggestions on improving *fluxionScrollbar* at [ismail@teamfluxion.com](mailto:ismail@teamfluxion.com)
 
