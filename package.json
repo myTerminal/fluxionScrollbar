@@ -29,5 +29,5 @@
     "test": "grunt test"
   },
   "author": "Mohammed Ismail Ansari",
-  "license": "BSD-2-Clause"
+  "license": "GPL-3.0"
 }
