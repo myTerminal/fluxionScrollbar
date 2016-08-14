@@ -12,6 +12,8 @@
 
 A simple plug-and-play JavaScript scrollbar
 
+> **Note**: fluxionScrollbar is obsolete and no longer updated, see [faded-scrollbar](https://github.com/myTerminal/faded-scrollbar)
+
 ## How to use
 
 *fluxionScrollbar* is an easy to use jQuery scrollbar plugin that requires minimal effort to set up on a web-page. Below are simple steps that you need to do to get it working:
