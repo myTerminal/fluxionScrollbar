@@ -29,9 +29,3 @@ A simple plug-and-play JavaScript scrollbar
 		myScrollbar.activate();
 
 That is all!
-
-## Let me know
-
-Let me know your suggestions on improving *fluxionScrollbar* at [ismail@teamfluxion.com](mailto:ismail@teamfluxion.com)
-
-Thank you!
