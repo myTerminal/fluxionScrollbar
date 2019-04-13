@@ -17,8 +17,8 @@ A simple plug-and-play JavaScript scrollbar
 
 *fluxionScrollbar* is an easy to use jQuery scrollbar plugin that requires minimal effort to set up on a web-page. Below are simple steps that you need to do to get it working:
 
-1. Include the stylesheet *fluxionScrollbar.css* and the script *fluxionScrollbar.min.js* in the target page along with the required dependencies like jQuery, jQuery-easing and jQuery-mousewheel.
-2. Set the dimensions (especially the height) of the lement on which you want the scrollbar to appear.
+1. Include the stylesheet *fluxionScrollbar.css* and the script *fluxionScrollbar.min.js* in the target page along with the required dependencies like jQuery, jQuery-easing, and jQuery-mousewheel.
+2. Set the dimensions (especially the height) of the element on which you want the scrollbar to appear.
 3. Create an instance of `fluxionScrollbar` with the selector of your desired container.
 
 		var myScrollbar = new fluxionScrollbar(".myContent");
