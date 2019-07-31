@@ -6,3 +6,5 @@ languages:
 exclude_paths:
 - "external"
 - "build"
+- "GruntFile.js"
+- "installer.js"
